@@ -6,11 +6,15 @@ const bigqueryClient = new BigQuery({
     projectId: process.env.projectId,
 });
 
-router.get('/', async(req,res)=>{
-    const dataset = 'portfolio';
 
-    const {tableId} = req.body;
-    const query = `
+const convertToTable = (query) => {
+
+}
+
+router.get('/', async(req,res)=>{
+    const dataset = 'portfolio';         
+    const {query, tableId} = req.body;
+    const sqlQuery = `
         select * 
         from \`${dataset}.${tableId}\`
     `
