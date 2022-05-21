@@ -11,6 +11,6 @@ require('./startup/routes')(app);
 functions.http("portfolioFunctions", app)
 
 // const port = process.env.PORT || 3000;
-// app.listen(port, ()=> winston.info(`Listening on port ${port}`))
+app.listen(8080, ()=> winston.info(`Listening on port 8080`))
 
 module.exports = { app }
