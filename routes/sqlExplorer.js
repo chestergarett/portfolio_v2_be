@@ -29,7 +29,7 @@ const convertQuery = (dataset,query) => {
     return transformed_query;
 }
 
-router.get('/', async(req,res)=>{
+router.post('/', async(req,res)=>{
     const dataset = 'portfolio';         
     const { query } = req.body;
     const sqlQuery = convertQuery(dataset,query);
