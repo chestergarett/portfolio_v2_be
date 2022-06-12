@@ -6,7 +6,7 @@ const winston = require('winston');
 const app = express();
 
 app.use(express.json());
-app.use(cors())
+app.use(cors({ origin: true }));
 require('./startup/routes')(app);
 exports.portfolioFunctions = functions.http("portfolioFunctions", app)
 

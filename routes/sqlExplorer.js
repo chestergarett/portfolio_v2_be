@@ -8,10 +8,10 @@ const bigqueryClient = new BigQuery({
 
 
 const convertQuery = (dataset,query) => {
-    let transformed_query = ''
+    let transformed_query = '';
+
     if(query.match("from about")){
         transformed_query = query.replace("about", `${dataset}.about`)
-        console.log(transformed_query)
     }
 
     if(query.match("from education")){
@@ -29,10 +29,10 @@ const convertQuery = (dataset,query) => {
     return transformed_query;
 }
 
-router.post('/', async(req,res)=>{
+router.post('/query', async(req,res)=>{
     const dataset = 'portfolio';         
     const { query } = req.body;
-    const sqlQuery = convertQuery(dataset,query);
+    const sqlQuery = convertQuery(dataset,query.toLowerCase());
     
     const options = {
         query: sqlQuery
@@ -40,7 +40,15 @@ router.post('/', async(req,res)=>{
 
     // Run the query
     const [rows] = await bigqueryClient.query(options);
-    res.send(rows)
+    res.status(200).send(rows)
 });
+
+router.get('/tables', async(req,res)=> {
+    const [portfolio] = await bigqueryClient.dataset('portfolio').getTables();
+    let data = [];
+    
+    portfolio.forEach(table => data.push(table.id))
+    res.status(200).send({ portfolio: data })
+})
 
 module.exports = router;
